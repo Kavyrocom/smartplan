@@ -22,6 +22,14 @@ Smartplan fills that gap.
 
 ## Installation
 
+### From GitHub (recommended)
+
+```
+/learn https://github.com/Kavyrocom/smartplan
+```
+
+That's it. Hermes Agent fetches the repo and installs the skill automatically.
+
 ### Manual install
 
 Copy the `smartplan` folder into your Hermes skills directory:
