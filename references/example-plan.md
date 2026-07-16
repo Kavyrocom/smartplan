@@ -20,7 +20,9 @@ Aucun pipeline de notification n'existe. Les événements de l'API ne sont ni st
 - [ ] Endpoint récepteur déployé (vérifier : `curl -s https://receiver.example.com/ping` retourne 200)
 
 ### Hypothèses
-- L'API supporte les webhooks sortants (à vérifier étape 1)
+- L'API supporte les webhooks sortants (à vérifier étape 1) — risquée si non documenté.
+- Le canal Slack de destination est #api-alerts (non confirmé par l'utilisateur — à valider au GO-1).
+- Le fuseau horaire des timestamps est UTC (non spécifié — à confirmer si l'équipe est hors UTC).
 
 ---
 
@@ -54,7 +56,7 @@ Aucun pipeline de notification n'existe. Les événements de l'API ne sont ni st
 **Vérification :** `curl -s -X POST https://hooks.slack.com/services/T... -H 'Content-Type: application/json' -d '{"text":"test"}'` retourne 200 + message visible dans Slack
 **Risque :** Token invalide → vérifier les permissions Slack
 
-### Étape 5 : Test end-to-end (dry-run)
+### Étape 5 : Test end-to-end (dry-run) `[MUTATION]`
 **Responsable :** Agent
 **Action :** Déclencher un événement test via l'API, vérifier stockage en base + notification Slack
 **Livrable :** Événement test en base + message Slack reçu
@@ -130,7 +132,7 @@ Aucun pipeline de notification n'existe. Les événements de l'API ne sont ni st
 
 ---
 
-## 7. Notes
+## 8. Notes
 
 - Le récepteur doit être idempotent : un même événement reçu 2x ne doit pas créer 2 entrées ni 2 notifications Slack.
 - Le payload est stocké en TEXT brut pour permettre un reprocessing ultérieur sans dépendance API.

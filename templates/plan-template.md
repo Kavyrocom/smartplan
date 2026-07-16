@@ -18,7 +18,7 @@
 - [ ] [Accès Z vérifié]
 
 ### Hypothèses
-- [Hypothèse — risquée]
+- [Si une information essentielle manque (timezone, propriétaire, métriques, fournisseur), ne pas deviner en silence. Faire une hypothèse explicite et la marquer comme risquée. L'exécuteur ou le valideur pourra la corriger au GO-1.]
 
 ---
 
@@ -92,6 +92,14 @@
 
 ---
 
-## 7. Notes (optionnel)
+## 7. Calendrier et jalons (obligatoire si une deadline est donnée)
+
+| Jalon | J-n / Date | Étape(s) | Chemin critique |
+|-------|------------|----------|-----------------|
+| [Jalon] | [Date] | [Étape(s)] | [Oui/Non] |
+
+---
+
+## 8. Notes (optionnel)
 
 [Décisions, alternatives, contexte]
