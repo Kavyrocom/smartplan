@@ -53,9 +53,29 @@ skill_view(name='smartplan')
 
 ## Usage
 
-Ask your agent to plan a process:
+### Two ways to trigger Smartplan
+
+**1. Natural language (simplest)**
+
+Just ask your agent to plan something — the skill auto-loads when it matches:
 
 > "Plan the deployment of our post-purchase survey: webhook, storage, Slack notification."
+
+> "Create a deployment plan for migrating our CRM data to the new system."
+
+> "I need a rollout plan for our new onboarding automation."
+
+**2. Explicit skill load**
+
+If the agent doesn't auto-detect it, force-load with:
+
+```
+/skill smartplan
+```
+
+Then describe your process. The skill loads and stays active for the planning session.
+
+### What happens next
 
 The agent will:
 1. Load this skill
