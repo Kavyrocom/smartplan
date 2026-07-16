@@ -1,7 +1,7 @@
 ---
 name: smartplan
 description: "Use when asked to create, plan, or deploy a structured non-code process: business workflow, automation setup, data migration, product launch, operational rollout, or multi-agent execution plan with GO gates and rollback."
-version: 1.2.0
+version: 1.3.0
 author: David Schkiwisk (kavyro.com)
 license: MIT
 metadata:
@@ -10,7 +10,7 @@ metadata:
     related_skills: [software-delivery-workflow]
 ---
 
-# Process Deployment Planner
+# Smartplan
 
 ## Overview
 
@@ -34,7 +34,7 @@ Ce skill n'est pas pour le code (utiliser `software-delivery-workflow` ou `super
 **Ne pas utiliser pour :**
 - Plan d'implémentation code → `software-delivery-workflow`
 - Plan d'implémentation code TDD → `superpowers:writing-plans`
-- Routine récurrente automatisée → cronjob
+- L'automatisation elle-même (le cron, le webhook, le job) → le skill produit le **plan de déploiement**, pas l'automatisation. Le cronjob est un livrable du plan, pas une raison d'exclure le plan.
 - Process simple tenant en 2-3 actions → action directe, pas de plan. Un plan n'apporte de valeur que si la séquence, les responsabilités ou les GO gates réduisent un risque réel.
 
 ## Core behavior
@@ -72,10 +72,10 @@ Le plan doit contenir ces sections, dans cet ordre. Chaque section est obligatoi
 
 ### Prérequis
 - [ ] [Ce qui doit être en place avant de commencer — systèmes, accès, données, permissions]
-- [ ] [Chaque prérequis est vérifiable : "X est accessible via Y"]
+- [ ] [Chaque prérequis est énoncé sous forme vérifiable : "X est accessible via Y". En mode plan-only, "vérifié" = énoncé en forme vérifiable, pas testé pour de réel.]
 
 ### Hypothèses
-- [Hypothèses faites si des informations manquent — chaque hypothèse est risquée]
+- [Si une information manque (timezone, propriétaire, métriques, fournisseur), ne pas deviner en silence. Faire une hypothèse explicite ici et la marquer comme risquée. L'exécuteur ou le valideur pourra la corriger au GO-1.]
 ```
 
 ### 2. Étapes d'exécution
@@ -228,6 +228,7 @@ Après avoir sauvegardé le plan :
 - Identifier les prérequis et dépendances
 - Lister les acteurs (agents, humains, systèmes)
 - Si la mission implique plusieurs agents ou un routage, charger le skill de routage disponible sur l'installation avant d'assigner les responsables
+- Si une information essentielle manque (timezone, propriétaire, métriques, fournisseur), faire une hypothèse explicite plutôt que deviner en silence. L'inscrire dans la section Hypothèses du plan.
 
 ### Step 3 : Séquencer les étapes
 - Décomposer en étapes vérifiables
@@ -296,3 +297,8 @@ Créer un plan complet pour "envoyer un email à X".
 Utiliser ce skill pour un plan d'implémentation Python/JS.
 **Pourquoi c'est mauvais :** Ce skill n'a pas de TDD, pas de file paths, pas de git workflow.
 **Correct :** Rediriger vers `software-delivery-workflow` ou `superpowers:writing-plans`.
+
+### ❌ Plan sans étapes parallèles
+Marquer toutes les étapes comme séquentielles quand certaines sont indépendantes.
+**Pourquoi c'est mauvais :** L'exécution prend plus de temps que nécessaire.
+**Correct :** Marquer les étapes indépendantes `[PARALLÈLE]` pour permettre une exécution concurrente.
