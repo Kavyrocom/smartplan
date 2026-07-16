@@ -28,21 +28,21 @@
 **Responsable :** [Agent/humain]
 **Action :** [Action concrète]
 **Livrable :** [Artefact produit]
-**Vérification :** [Commande/URL/readback]
+**Vérification :** [Ce qu'il faut vérifier — la commande peut être un livrable d'une étape précédente]
 **Risque :** [Ce qui peut mal tourner]
 
 ### Étape 2 : [Nom] `[MUTATION]`
 **Responsable :** [Agent/humain]
 **Action :** [Action concrète]
 **Livrable :** [Artefact produit]
-**Vérification :** [Commande/URL/readback]
+**Vérification :** [Ce qu'il faut vérifier — la commande peut être un livrable d'une étape précédente]
 **Risque :** [Ce qui peut mal tourner]
 
 ### Étape 3 : [Nom] `[PARALLÈLE]`
 **Responsable :** [Agent/humain]
 **Action :** [Action concrète]
 **Livrable :** [Artefact produit]
-**Vérification :** [Commande/URL/readback]
+**Vérification :** [Ce qu'il faut vérifier — la commande peut être un livrable d'une étape précédente]
 **Risque :** [Ce qui peut mal tourner]
 
 ---

@@ -1,7 +1,7 @@
 ---
 name: smartplan
 description: "Use when asked to create, plan, or deploy a structured non-code process: business workflow, automation setup, data migration, product launch, operational rollout, or multi-agent execution plan with GO gates and rollback."
-version: 1.3.0
+version: 1.4.0
 author: David Schkiwisk (kavyro.com)
 license: MIT
 metadata:
@@ -89,7 +89,7 @@ Chaque étape est une action concrète avec un responsable, un livrable et une v
 **Responsable :** [Agent / humain — nommer explicitement]
 **Action :** [Ce qui doit être fait — concret, pas vague]
 **Livrable :** [Ce que produit cette étape — artefact, fichier, statut]
-**Vérification :** [Comment confirmer que l'étape est OK — commande, URL, readback]
+**Vérification :** [Comment confirmer que l'étape est OK — ce qu'il faut vérifier, pas nécessairement une commande. La commande ou le script peut être un livrable de l'étape précédente.]
 **Risque :** [Ce qui peut mal tourner — et comment le détecter]
 
 ### Étape 2 : ...
@@ -119,7 +119,9 @@ Points où l'exécution s'arrête et attend une validation explicite.
 **Règles GO :**
 - Un GO est obligatoire avant toute mutation externe, publication, envoi, achat ou changement de permissions
 - Un GO n'est pas requis pour lecture, diagnostic, brouillon ou préparation
-- Le validateur est toujours une personne réelle (pas un agent)
+- Un GO peut autoriser une séquence bornée de mutations si celles-ci sont listées explicitement dans la condition du GO. Sinon, une mutation = un GO.
+- Les test sends vers des systèmes externes (email, Slack, API) sont des mutations et nécessitent un GO
+- Le validateur est toujours une personne réelle (pas un agent). Si aucun nom n'est disponible, utiliser un rôle identifié (ex: "Responsable Ops", "Chef de projet") et le marquer comme hypothèse risquée.
 - Sans GO, l'exécution s'arrête et attend
 
 ### 4. Rollback
@@ -168,7 +170,24 @@ Comment revenir en arrière si ça casse.
 | [Risque] | Faible/Moyen/Élevé | [Impact] | [Action préventive] |
 ```
 
-### 7. Notes (optionnel)
+### 7. Calendrier et jalons (obligatoire si une deadline est donnée)
+
+Quand la demande contient une échéance explicite (ex. "go live dans 2 semaines", date de lancement, migration à réaliser avant une fenêtre de maintenance), ajouter une section calendrier avant les notes. Le calendrier doit transformer les étapes en jalons datés ou J-n, identifier le chemin critique et montrer ce qui peut être parallélisé.
+
+```markdown
+## 7. Calendrier et jalons
+
+| Quand | Jalons | Étapes couvertes | Responsable | Condition de sortie |
+|-------|--------|------------------|-------------|---------------------|
+| J-14 à J-12 | [Jalon] | Étapes 1-3 | [Humain/Agent] | [Preuve vérifiable] |
+```
+
+Règles :
+- Ne pas inventer une date absolue si seule une durée relative est donnée ; utiliser J-14, Semaine 1, etc.
+- Si la deadline est serrée, mettre en évidence les travaux `[PARALLÈLE]` et les décisions qui bloquent le chemin critique.
+- Le calendrier ne remplace pas les étapes : il résume l'ordre d'exécution et les points de validation.
+
+### 8. Notes (optionnel)
 
 ```markdown
 ## 7. Notes
@@ -227,7 +246,7 @@ Après avoir sauvegardé le plan :
 - Inspecter le contexte avec read-only si nécessaire
 - Identifier les prérequis et dépendances
 - Lister les acteurs (agents, humains, systèmes)
-- Si la mission implique plusieurs agents ou un routage, charger le skill de routage disponible sur l'installation avant d'assigner les responsables
+- Si la mission implique plusieurs agents Hermes ou un routage entre profils, charger le skill de routage disponible sur l'installation avant d'assigner les responsables. Ne pas confondre avec le routing métier (ex: auto-routing de tickets, routing d'emails) qui est un livrable du plan, pas un routage d'agents.
 - Si une information essentielle manque (timezone, propriétaire, métriques, fournisseur), faire une hypothèse explicite plutôt que deviner en silence. L'inscrire dans la section Hypothèses du plan.
 
 ### Step 3 : Séquencer les étapes
@@ -240,6 +259,12 @@ Après avoir sauvegardé le plan :
 - Identifier l'étape la plus risquée
 - Définir le backup préalable
 - Définir les déclencheurs de rollback
+
+### Step 4 bis : Définir le calendrier si une échéance existe
+- Si l'utilisateur donne une deadline ou une date de go-live, ajouter `## 7. Calendrier et jalons`
+- Répartir les étapes en jalons datés ou relatifs (J-14, J-7, J-1, lancement, post-lancement)
+- Identifier le chemin critique, les GO gates qui peuvent bloquer l'échéance et les travaux parallélisables
+- Pour les lancements commerciaux, inclure aussi les jalons de mesure : objectif de revenu/capacité, suivi des conversions, seuil sold-out ou liste d'attente
 
 ### Step 5 : Écrire le plan
 - Remplir chaque section
@@ -258,6 +283,7 @@ Vérifier avant de déclarer le plan terminé :
 - [ ] Le rollback est défini avec des déclencheurs observables
 - [ ] Les critères de fin sont vérifiables indépendamment
 - [ ] Preuve de succès identifiée
+- [ ] Si une deadline/date de lancement est donnée, un calendrier de jalons est inclus avec chemin critique et travaux parallélisables
 - [ ] Aucun placeholder
 - [ ] Plan sauvegardé sous `.hermes/plans/`
 
