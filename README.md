@@ -55,7 +55,23 @@ skill_view(name='smartplan')
 
 ### Two ways to trigger Smartplan
 
-**1. Natural language (simplest)**
+**1. Slash command (fastest)**
+
+Once installed, every skill is automatically a slash command in Hermes. Just type:
+
+```
+/smartplan
+```
+
+Then describe your process. The skill loads and waits for your input.
+
+You can also pass the task directly:
+
+```
+/smartplan Plan the deployment of our post-purchase survey: webhook, storage, Slack notification.
+```
+
+**2. Natural language**
 
 Just ask your agent to plan something — the skill auto-loads when it matches:
 
@@ -64,16 +80,6 @@ Just ask your agent to plan something — the skill auto-loads when it matches:
 > "Create a deployment plan for migrating our CRM data to the new system."
 
 > "I need a rollout plan for our new onboarding automation."
-
-**2. Explicit skill load**
-
-If the agent doesn't auto-detect it, force-load with:
-
-```
-/skill smartplan
-```
-
-Then describe your process. The skill loads and stays active for the planning session.
 
 ### What happens next
 
