@@ -235,6 +235,15 @@ Après avoir sauvegardé le plan :
 2. Offrir l'exécution : "Le plan est prêt. Tu veux que je l'exécute étape par étape avec les GO gates, ou que je délègue au profil propriétaire ?"
 3. Ne pas commencer l'exécution sans réponse explicite
 
+## Validation par stress test (optionnel)
+
+Pour valider un nouveau skill ou une révision majeure, lancer 3-5 subagents en parallèle avec des scénarios variés (migration, lancement, automatisation, multi-agent, rollback). Chaque subagent :
+1. Charge le skill via `skill_view`
+2. Suit les instructions pour produire un plan réel
+3. Reporte : chemin du plan, efficacité du guidage, gaps trouvés, self-review checklist
+
+Consolider les gaps, corriger uniquement les problèmes généralistes (pas les gaps scenario-specific), bumper la version, resync les profils, et pousser une nouvelle release.
+
 ## Writing process
 
 ### Step 1 : Comprendre la demande
@@ -328,3 +337,13 @@ Utiliser ce skill pour un plan d'implémentation Python/JS.
 Marquer toutes les étapes comme séquentielles quand certaines sont indépendantes.
 **Pourquoi c'est mauvais :** L'exécution prend plus de temps que nécessaire.
 **Correct :** Marquer les étapes indépendantes `[PARALLÈLE]` pour permettre une exécution concurrente.
+
+### ❌ Confondre routing métier et routing d'agents
+Charger un skill de routing Hermes pour un plan qui contient du routing métier (auto-routing de tickets, routing d'emails).
+**Pourquoi c'est mauvais :** Le routing métier est un livrable du plan, pas un routage entre profils Hermes.
+**Correct :** Charger le skill de routage seulement si plusieurs agents Hermes doivent se coordonner. Le routing métier est une étape du plan.
+
+### ❌ Deviner en silence quand une info manque
+Utiliser une timezone, un propriétaire ou un fournisseur par défaut sans le dire.
+**Pourquoi c'est mauvais :** L'exécuteur ou le valideur ne sait pas que c'est une hypothèse, pas un fait.
+**Correct :** Faire une hypothèse explicite dans la section Hypothèses, marquée comme risquée. L'exécuteur peut la corriger au GO-1.
